@@ -1,5 +1,12 @@
-from custom_model.model import loadModel
+from flask import Flask
+from flask_restful import Api
+from routes import init_routes
 
-test = loadModel('fish_classify_afterfinetune_2_2.h5')
+app = Flask(__name__)
+api = Api(app)
 
-print('Test ', test)
+# Initialize routes
+init_routes(api)
+
+
+app.run(debug=True)
