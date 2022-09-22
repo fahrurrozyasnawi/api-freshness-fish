@@ -1,3 +1,4 @@
 # Ignoring Files or Folder
 
 /venv
+.vercel

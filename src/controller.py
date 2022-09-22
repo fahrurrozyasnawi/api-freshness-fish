@@ -27,8 +27,42 @@ def allowed_file(filename):
   return '.' in filename and \
     filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+class Classify(Resource):
+  def post(self):
+    print('Req ', request.files)
+    if 'file' not in request.files:
+      flash('No Image selected')
+      return 'No Image File', 200
+
+    img = request.files['file']
+    if img.filename == '':
+      flash('No item selected')
+      return 'No image File', 200
+    
+    if img and allowed_file(img.filename):
+      result_1 = predict_fish(img, model_1)
+      result_2 = predict_freshness(img, model_2)
+
+      maxindex = int(np.argmax(result_1))
+      # if (result_2 == 0):
+      #   freshness_result = 'Segar'
+      # else:
+      #   freshness_result = 'Tidak Segar'
+
+      results = {
+        'fish': class_names[maxindex],
+        'freshness': 'Segar' if result_2 == 0 else 'Tidak Segar'
+      }
+
+      return results, 200
+
+  def get(self):
+    return 'Test 123', 200
+
 class ClassifyFish(Resource):
   def post(self):
+    print('Files ', request.files)
+
     if 'file' not in request.files:
       flash('No Image selected')
       return 'No Image File', 200
