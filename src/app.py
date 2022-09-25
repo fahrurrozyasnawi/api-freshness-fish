@@ -4,8 +4,8 @@ from routes import init_routes
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-# app.secret_key = 'test12345'
-# app.config['CORS_HEADERS'] = 'Content-Type'
+app.secret_key = 'test12345'
+app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 api = Api(app)
 
